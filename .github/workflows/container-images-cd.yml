@@ -21,7 +21,6 @@ on:
 jobs:
     posthog_build:
         name: Build and push PostHog
-        if: github.repository == 'PostHog/posthog'
         runs-on: depot-ubuntu-latest
         permissions:
             id-token: write # allow issuing OIDC tokens for this workflow run
