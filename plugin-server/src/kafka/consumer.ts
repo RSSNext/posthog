@@ -20,6 +20,7 @@ import { retryIfRetriable } from '../utils/retries'
 import { promisifyCallback } from '../utils/utils'
 import { ensureTopicExists } from './admin'
 import { getKafkaConfigFromEnv } from './config'
+import { match } from 'assert'
 
 const DEFAULT_BATCH_TIMEOUT_MS = 500
 const SLOW_BATCH_PROCESSING_LOG_THRESHOLD_MS = 10000
@@ -129,9 +130,13 @@ export class KafkaConsumer {
         this.maxHealthHeartbeatIntervalMs =
             defaultConfig.CONSUMER_MAX_HEARTBEAT_INTERVAL_MS || MAX_HEALTH_HEARTBEAT_INTERVAL_MS
 
+        const securityProtocol = defaultConfig.KAFKA_SECURITY_PROTOCOL?.toLowerCase() as Partial<
+            'plaintext' | 'ssl' | 'sasl_plaintext' | 'sasl_ssl'
+        >
+
         this.consumerConfig = {
             'client.id': hostname(),
-            'security.protocol': defaultConfig.KAFKA_SECURITY_PROTOCOL,
+            'security.protocol': securityProtocol,
             'metadata.broker.list': defaultConfig.KAFKA_HOSTS, // Overridden with KAFKA_CONSUMER_METADATA_BROKER_LIST
             log_level: 4, // WARN as the default
             'group.id': this.config.groupId,
