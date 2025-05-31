@@ -132,7 +132,7 @@ export class KafkaConsumer {
         this.consumerConfig = {
             'client.id': hostname(),
             'security.protocol': defaultConfig.KAFKA_SECURITY_PROTOCOL,
-            'metadata.broker.list': 'kafka:9092', // Overridden with KAFKA_CONSUMER_METADATA_BROKER_LIST
+            'metadata.broker.list': defaultConfig.KAFKA_HOSTS, // Overridden with KAFKA_CONSUMER_METADATA_BROKER_LIST
             log_level: 4, // WARN as the default
             'group.id': this.config.groupId,
             'session.timeout.ms': 30_000,
