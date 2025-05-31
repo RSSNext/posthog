@@ -51,7 +51,7 @@ export class KafkaProducerWrapper {
             // Defaults that could be overridden by env vars
             'client.id': hostname(),
             'client.rack': config.KAFKA_CLIENT_RACK,
-            'metadata.broker.list': 'kafka:9092',
+            'metadata.broker.list': config.KAFKA_HOSTS,
             'linger.ms': 20,
             log_level: 4, // WARN as the default
             'batch.size': 8 * 1024 * 1024,
