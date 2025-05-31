@@ -93,6 +93,7 @@ export const createCdpRedisPool = (config: PluginsServerConfig): CdpRedis => {
                 const client = await createRedisClient(config.CDP_REDIS_HOST, {
                     port: config.CDP_REDIS_PORT,
                     password: config.CDP_REDIS_PASSWORD,
+                    db: config.CDP_REDIS_DB,
                 })
 
                 client.defineCommand('checkRateLimit', {

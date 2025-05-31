@@ -167,6 +167,7 @@ export function getDefaultConfig(): PluginsServerConfig {
         CDP_EVENT_PROCESSOR_EXECUTE_FIRST_STEP: true,
         CDP_REDIS_HOST: '',
         CDP_REDIS_PORT: 6479,
+        CDP_REDIS_DB: 0,
         CDP_CYCLOTRON_BATCH_DELAY_MS: 50,
         CDP_CYCLOTRON_BATCH_SIZE: 300,
         CDP_GOOGLE_ADWORDS_DEVELOPER_TOKEN: '',
