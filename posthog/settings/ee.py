@@ -1,4 +1,4 @@
-EE_AVAILABLE = False
+EE_AVAILABLE = True
 
 try:
     from ee.apps import EnterpriseConfig  # noqa: F401
