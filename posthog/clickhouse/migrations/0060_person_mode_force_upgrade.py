@@ -12,7 +12,7 @@ from posthog.settings import CLICKHOUSE_CLUSTER
 # Column was added in 0057_events_person_mode
 ALTER_COLUMNS_BASE_SQL = """
 ALTER TABLE {table}
-ON CLUSTER {cluster}
+
 MODIFY COLUMN person_mode Enum8('full' = 0, 'propertyless' = 1, 'force_upgrade' = 2)
 """
 

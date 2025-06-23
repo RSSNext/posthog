@@ -47,7 +47,7 @@ class Migration(AsyncMigrationDefinition):
     @cached_property
     def operations(self):
         operations = []
-        on_cluster = lambda sharded_table: f"ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'" if sharded_table else ""
+        on_cluster = lambda sharded_table: ""
 
         for table, sharded in PROJECTION_TABLES:
             operations.extend(

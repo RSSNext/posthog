@@ -8,7 +8,7 @@ CLICKHOUSE_DATABASE = settings.CLICKHOUSE_DATABASE
 
 def TABLE_TEMPLATE(table_name, columns, order_by, on_cluster=True):
     engine = ReplacingMergeTree(table_name, replication_scheme=ReplicationScheme.REPLICATED, ver="updated_at")
-    on_cluster_clause = f"ON CLUSTER '{CLICKHOUSE_CLUSTER}'" if on_cluster else ""
+    on_cluster_clause = ""
     return f"""
     CREATE TABLE IF NOT EXISTS {table_name} {on_cluster_clause}
     (

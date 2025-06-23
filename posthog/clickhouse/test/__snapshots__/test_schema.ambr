@@ -1567,7 +1567,7 @@
 # name: test_create_table_query[kafka_session_replay_events_v2_test]
   '''
   
-      CREATE TABLE IF NOT EXISTS kafka_session_replay_events_v2_test ON CLUSTER 'posthog'
+      CREATE TABLE IF NOT EXISTS kafka_session_replay_events_v2_test
       (
           session_id VARCHAR,
           team_id Int64,
@@ -1596,7 +1596,7 @@
 # name: test_create_table_query[log_entries]
   '''
   
-  CREATE TABLE IF NOT EXISTS log_entries ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS log_entries
   (
       team_id UInt64,
       -- The name of the service or product that generated the logs.
@@ -1631,7 +1631,7 @@
 # name: test_create_table_query[log_entries_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS log_entries_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS log_entries_mv
   TO posthog_test.log_entries
   AS SELECT
   team_id,
@@ -1650,7 +1650,7 @@
 # name: test_create_table_query[performance_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS performance_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS performance_events
   (
       uuid UUID,
   session_id String,
@@ -1711,7 +1711,7 @@
 # name: test_create_table_query[performance_events_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS performance_events_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS performance_events_mv
   TO posthog_test.writeable_performance_events
   AS SELECT
   uuid, session_id, window_id, pageview_id, distinct_id, timestamp, time_origin, entry_type, name, team_id, current_url, start_time, duration, redirect_start, redirect_end, worker_start, fetch_start, domain_lookup_start, domain_lookup_end, connect_start, secure_connection_start, connect_end, request_start, response_start, response_end, decoded_body_size, encoded_body_size, initiator_type, next_hop_protocol, render_blocking_status, response_status, transfer_size, largest_contentful_paint_element, largest_contentful_paint_render_time, largest_contentful_paint_load_time, largest_contentful_paint_size, largest_contentful_paint_id, largest_contentful_paint_url, dom_complete, dom_content_loaded_event, dom_interactive, load_event_end, load_event_start, redirect_count, navigation_type, unload_event_end, unload_event_start
@@ -1723,7 +1723,7 @@
 # name: test_create_table_query[person]
   '''
   
-  CREATE TABLE IF NOT EXISTS person ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person
   (
       id UUID,
       created_at DateTime64,
@@ -1748,7 +1748,7 @@
 # name: test_create_table_query[person_distinct_id2]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_distinct_id2 ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_distinct_id2
   (
       team_id Int64,
       distinct_id VARCHAR,
@@ -1773,7 +1773,7 @@
 # name: test_create_table_query[person_distinct_id2_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS person_distinct_id2_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS person_distinct_id2_mv
   TO posthog_test.person_distinct_id2
   AS SELECT
   team_id,
@@ -1791,7 +1791,7 @@
 # name: test_create_table_query[person_distinct_id]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_distinct_id ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_distinct_id
   (
       distinct_id VARCHAR,
       person_id UUID,
@@ -1811,7 +1811,7 @@
 # name: test_create_table_query[person_distinct_id_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS person_distinct_id_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS person_distinct_id_mv
   TO posthog_test.person_distinct_id
   AS SELECT
   distinct_id,
@@ -1827,7 +1827,7 @@
 # name: test_create_table_query[person_distinct_id_overrides]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_distinct_id_overrides ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_distinct_id_overrides
   (
       team_id Int64,
       distinct_id VARCHAR,
@@ -1852,7 +1852,7 @@
 # name: test_create_table_query[person_distinct_id_overrides_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS person_distinct_id_overrides_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS person_distinct_id_overrides_mv
   TO posthog_test.person_distinct_id_overrides
   AS SELECT
   team_id,
@@ -1871,7 +1871,7 @@
 # name: test_create_table_query[person_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS person_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS person_mv
   TO posthog_test.person
   AS SELECT
   id,
@@ -1891,7 +1891,7 @@
   '''
   
       CREATE TABLE IF NOT EXISTS `posthog_test`.`person_overrides`
-      ON CLUSTER 'posthog' (
+      (
           team_id INT NOT NULL,
   
           -- When we merge two people `old_person_id` and `override_person_id`, we
@@ -1955,7 +1955,7 @@
   '''
   
       CREATE MATERIALIZED VIEW IF NOT EXISTS `posthog_test`.`person_overrides_mv`
-      ON CLUSTER 'posthog'
+
       TO `posthog_test`.`person_overrides`
       AS SELECT
           team_id,
@@ -1974,7 +1974,7 @@
 # name: test_create_table_query[person_static_cohort]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_static_cohort ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_static_cohort
   (
       id UUID,
       person_id UUID,
@@ -1993,7 +1993,7 @@
 # name: test_create_table_query[pg_embeddings]
   '''
   
-  CREATE TABLE IF NOT EXISTS pg_embeddings ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS pg_embeddings
   (
       domain String,
       team_id Int64,
@@ -2014,7 +2014,7 @@
 # name: test_create_table_query[plugin_log_entries]
   '''
   
-  CREATE TABLE IF NOT EXISTS plugin_log_entries ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS plugin_log_entries
   (
       id UUID,
       team_id Int64,
@@ -2039,7 +2039,7 @@
 # name: test_create_table_query[plugin_log_entries_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS plugin_log_entries_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS plugin_log_entries_mv
   TO posthog_test.plugin_log_entries
   AS SELECT
   id,
@@ -2060,7 +2060,7 @@
 # name: test_create_table_query[raw_sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS raw_sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS raw_sessions
   (
       team_id Int64,
       session_id_v7 UInt128, -- integer representation of a uuidv7
@@ -2149,7 +2149,7 @@
 # name: test_create_table_query[raw_sessions_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS raw_sessions_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS raw_sessions_mv
   TO posthog_test.writable_raw_sessions
   AS
   
@@ -2240,7 +2240,7 @@
 # name: test_create_table_query[session_recording_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS session_recording_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS session_recording_events
   (
       uuid UUID,
       timestamp DateTime64(6, 'UTC'),
@@ -2262,7 +2262,7 @@
 # name: test_create_table_query[session_recording_events_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS session_recording_events_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS session_recording_events_mv
   TO posthog_test.writable_session_recording_events
   AS SELECT
   uuid,
@@ -2282,7 +2282,7 @@
 # name: test_create_table_query[session_replay_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS session_replay_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS session_replay_events
   (
       -- part of order by so will aggregate correctly
       session_id VARCHAR,
@@ -2331,7 +2331,7 @@
 # name: test_create_table_query[session_replay_events_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS session_replay_events_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS session_replay_events_mv
   TO posthog_test.writable_session_replay_events (
   `session_id` String, `team_id` Int64, `distinct_id` String,
   `min_first_timestamp` DateTime64(6, 'UTC'),
@@ -2392,7 +2392,7 @@
 # name: test_create_table_query[session_replay_events_v2_test]
   '''
   
-      CREATE TABLE IF NOT EXISTS session_replay_events_v2_test ON CLUSTER 'posthog'
+      CREATE TABLE IF NOT EXISTS session_replay_events_v2_test
       (
           session_id VARCHAR,
           team_id Int64,
@@ -2424,7 +2424,7 @@
 # name: test_create_table_query[session_replay_events_v2_test_mv]
   '''
   
-      CREATE MATERIALIZED VIEW IF NOT EXISTS session_replay_events_v2_test_mv ON CLUSTER 'posthog'
+      CREATE MATERIALIZED VIEW IF NOT EXISTS session_replay_events_v2_test_mv
       TO posthog_test.writable_session_replay_events_v2_test (
           `session_id` String,
           `team_id` Int64,
@@ -2482,7 +2482,7 @@
 # name: test_create_table_query[sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sessions
   (
       -- part of order by so will aggregate correctly
       session_id VARCHAR,
@@ -2538,7 +2538,7 @@
 # name: test_create_table_query[sessions_mv]
   '''
   
-  CREATE MATERIALIZED VIEW IF NOT EXISTS sessions_mv ON CLUSTER 'posthog'
+  CREATE MATERIALIZED VIEW IF NOT EXISTS sessions_mv
   TO posthog_test.writable_sessions
   AS
   
@@ -2594,7 +2594,7 @@
 # name: test_create_table_query[sharded_app_metrics2]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_app_metrics2 ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_app_metrics2
   (
       team_id Int64,
       timestamp DateTime64(6, 'UTC'),
@@ -2628,7 +2628,7 @@
 # name: test_create_table_query[sharded_app_metrics]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_app_metrics ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_app_metrics
   (
       team_id Int64,
       timestamp DateTime64(6, 'UTC'),
@@ -2656,7 +2656,7 @@
 # name: test_create_table_query[sharded_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_events
   (
       uuid UUID,
       event VARCHAR,
@@ -2744,7 +2744,7 @@
 # name: test_create_table_query[sharded_heatmaps]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_heatmaps ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_heatmaps
   (
       session_id VARCHAR,
       team_id Int64,
@@ -2788,7 +2788,7 @@
 # name: test_create_table_query[sharded_ingestion_warnings]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_ingestion_warnings ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_ingestion_warnings
   (
       team_id Int64,
       source LowCardinality(VARCHAR),
@@ -2809,7 +2809,7 @@
 # name: test_create_table_query[sharded_performance_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_performance_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_performance_events
   (
       uuid UUID,
   session_id String,
@@ -2874,7 +2874,7 @@
 # name: test_create_table_query[sharded_raw_sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_raw_sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_raw_sessions
   (
       team_id Int64,
       session_id_v7 UInt128, -- integer representation of a uuidv7
@@ -2972,7 +2972,7 @@
 # name: test_create_table_query[sharded_session_recording_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_session_recording_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_session_recording_events
   (
       uuid UUID,
       timestamp DateTime64(6, 'UTC'),
@@ -3001,7 +3001,7 @@
 # name: test_create_table_query[sharded_session_replay_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_session_replay_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_session_replay_events
   (
       -- part of order by so will aggregate correctly
       session_id VARCHAR,
@@ -3064,7 +3064,7 @@
 # name: test_create_table_query[sharded_session_replay_events_v2_test]
   '''
   
-      CREATE TABLE IF NOT EXISTS sharded_session_replay_events_v2_test ON CLUSTER 'posthog'
+      CREATE TABLE IF NOT EXISTS sharded_session_replay_events_v2_test
       (
           session_id VARCHAR,
           team_id Int64,
@@ -3100,7 +3100,7 @@
 # name: test_create_table_query[sharded_sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_sessions
   (
       -- part of order by so will aggregate correctly
       session_id VARCHAR,
@@ -3170,7 +3170,7 @@
 # name: test_create_table_query[writable_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS writable_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS writable_events
   (
       uuid UUID,
       event VARCHAR,
@@ -3207,7 +3207,7 @@
 # name: test_create_table_query[writable_heatmaps]
   '''
   
-  CREATE TABLE IF NOT EXISTS writable_heatmaps ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS writable_heatmaps
   (
       session_id VARCHAR,
       team_id Int64,
@@ -3235,7 +3235,7 @@
 # name: test_create_table_query[writable_raw_sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS writable_raw_sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS writable_raw_sessions
   (
       team_id Int64,
       session_id_v7 UInt128, -- integer representation of a uuidv7
@@ -3324,7 +3324,7 @@
 # name: test_create_table_query[writable_session_recording_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS writable_session_recording_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS writable_session_recording_events
   (
       uuid UUID,
       timestamp DateTime64(6, 'UTC'),
@@ -3346,7 +3346,7 @@
 # name: test_create_table_query[writable_sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS writable_sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS writable_sessions
   (
       -- part of order by so will aggregate correctly
       session_id VARCHAR,
@@ -3402,7 +3402,7 @@
 # name: test_create_table_query[writeable_performance_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS writeable_performance_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS writeable_performance_events
   (
       uuid UUID,
   session_id String,
@@ -3463,7 +3463,7 @@
 # name: test_create_table_query_replicated_and_storage[channel_definition]
   '''
   
-  CREATE TABLE IF NOT EXISTS channel_definition ON CLUSTER 'posthog' (
+  CREATE TABLE IF NOT EXISTS channel_definition (
       domain String NOT NULL,
       kind String NOT NULL,
       domain_type String NULL,
@@ -3477,7 +3477,7 @@
 # name: test_create_table_query_replicated_and_storage[cohortpeople]
   '''
   
-  CREATE TABLE IF NOT EXISTS cohortpeople ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS cohortpeople
   (
       person_id UUID,
       cohort_id Int64,
@@ -3493,7 +3493,7 @@
 # name: test_create_table_query_replicated_and_storage[error_tracking_issue_fingerprint_overrides]
   '''
   
-  CREATE TABLE IF NOT EXISTS error_tracking_issue_fingerprint_overrides ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS error_tracking_issue_fingerprint_overrides
   (
       team_id Int64,
       fingerprint VARCHAR,
@@ -3518,7 +3518,7 @@
 # name: test_create_table_query_replicated_and_storage[events_dead_letter_queue]
   '''
   
-  CREATE TABLE IF NOT EXISTS events_dead_letter_queue ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS events_dead_letter_queue
   (
       id UUID,
       event_uuid UUID,
@@ -3553,7 +3553,7 @@
 # name: test_create_table_query_replicated_and_storage[events_recent]
   '''
   
-  CREATE TABLE IF NOT EXISTS events_recent ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS events_recent
   (
       uuid UUID,
       event VARCHAR,
@@ -3595,7 +3595,7 @@
 # name: test_create_table_query_replicated_and_storage[exchange_rate]
   '''
   
-  CREATE TABLE IF NOT EXISTS `posthog_test`.`exchange_rate` ON CLUSTER 'posthog' (
+  CREATE TABLE IF NOT EXISTS `posthog_test`.`exchange_rate` (
       currency String,
       date Date,
       rate Decimal64(10),
@@ -3608,7 +3608,7 @@
 # name: test_create_table_query_replicated_and_storage[groups]
   '''
   
-  CREATE TABLE IF NOT EXISTS groups ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS groups
   (
       group_type_index UInt8,
       group_key VARCHAR,
@@ -3628,7 +3628,7 @@
 # name: test_create_table_query_replicated_and_storage[log_entries]
   '''
   
-  CREATE TABLE IF NOT EXISTS log_entries ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS log_entries
   (
       team_id UInt64,
       -- The name of the service or product that generated the logs.
@@ -3663,7 +3663,7 @@
 # name: test_create_table_query_replicated_and_storage[person]
   '''
   
-  CREATE TABLE IF NOT EXISTS person ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person
   (
       id UUID,
       created_at DateTime64,
@@ -3688,7 +3688,7 @@
 # name: test_create_table_query_replicated_and_storage[person_distinct_id2]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_distinct_id2 ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_distinct_id2
   (
       team_id Int64,
       distinct_id VARCHAR,
@@ -3713,7 +3713,7 @@
 # name: test_create_table_query_replicated_and_storage[person_distinct_id]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_distinct_id ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_distinct_id
   (
       distinct_id VARCHAR,
       person_id UUID,
@@ -3733,7 +3733,7 @@
 # name: test_create_table_query_replicated_and_storage[person_distinct_id_overrides]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_distinct_id_overrides ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_distinct_id_overrides
   (
       team_id Int64,
       distinct_id VARCHAR,
@@ -3759,7 +3759,7 @@
   '''
   
       CREATE TABLE IF NOT EXISTS `posthog_test`.`person_overrides`
-      ON CLUSTER 'posthog' (
+      (
           team_id INT NOT NULL,
   
           -- When we merge two people `old_person_id` and `override_person_id`, we
@@ -3822,7 +3822,7 @@
 # name: test_create_table_query_replicated_and_storage[person_static_cohort]
   '''
   
-  CREATE TABLE IF NOT EXISTS person_static_cohort ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS person_static_cohort
   (
       id UUID,
       person_id UUID,
@@ -3841,7 +3841,7 @@
 # name: test_create_table_query_replicated_and_storage[pg_embeddings]
   '''
   
-  CREATE TABLE IF NOT EXISTS pg_embeddings ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS pg_embeddings
   (
       domain String,
       team_id Int64,
@@ -3862,7 +3862,7 @@
 # name: test_create_table_query_replicated_and_storage[plugin_log_entries]
   '''
   
-  CREATE TABLE IF NOT EXISTS plugin_log_entries ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS plugin_log_entries
   (
       id UUID,
       team_id Int64,
@@ -3887,7 +3887,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_app_metrics2]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_app_metrics2 ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_app_metrics2
   (
       team_id Int64,
       timestamp DateTime64(6, 'UTC'),
@@ -3921,7 +3921,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_app_metrics]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_app_metrics ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_app_metrics
   (
       team_id Int64,
       timestamp DateTime64(6, 'UTC'),
@@ -3949,7 +3949,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_events
   (
       uuid UUID,
       event VARCHAR,
@@ -4037,7 +4037,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_heatmaps]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_heatmaps ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_heatmaps
   (
       session_id VARCHAR,
       team_id Int64,
@@ -4081,7 +4081,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_ingestion_warnings]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_ingestion_warnings ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_ingestion_warnings
   (
       team_id Int64,
       source LowCardinality(VARCHAR),
@@ -4102,7 +4102,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_performance_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_performance_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_performance_events
   (
       uuid UUID,
   session_id String,
@@ -4167,7 +4167,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_raw_sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_raw_sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_raw_sessions
   (
       team_id Int64,
       session_id_v7 UInt128, -- integer representation of a uuidv7
@@ -4265,7 +4265,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_session_recording_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_session_recording_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_session_recording_events
   (
       uuid UUID,
       timestamp DateTime64(6, 'UTC'),
@@ -4294,7 +4294,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_session_replay_events]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_session_replay_events ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_session_replay_events
   (
       -- part of order by so will aggregate correctly
       session_id VARCHAR,
@@ -4357,7 +4357,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_session_replay_events_v2_test]
   '''
   
-      CREATE TABLE IF NOT EXISTS sharded_session_replay_events_v2_test ON CLUSTER 'posthog'
+      CREATE TABLE IF NOT EXISTS sharded_session_replay_events_v2_test
       (
           session_id VARCHAR,
           team_id Int64,
@@ -4393,7 +4393,7 @@
 # name: test_create_table_query_replicated_and_storage[sharded_sessions]
   '''
   
-  CREATE TABLE IF NOT EXISTS sharded_sessions ON CLUSTER 'posthog'
+  CREATE TABLE IF NOT EXISTS sharded_sessions
   (
       -- part of order by so will aggregate correctly
       session_id VARCHAR,

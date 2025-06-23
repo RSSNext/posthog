@@ -13,7 +13,7 @@ from posthog.settings import CLICKHOUSE_CLUSTER
 # leaning on the default of 0 to be "full" (as desired)
 ADD_COLUMNS_BASE_SQL = """
 ALTER TABLE {table}
-ON CLUSTER {cluster}
+
 ADD COLUMN IF NOT EXISTS person_mode Enum8('full' = 0, 'propertyless' = 1)
 """
 

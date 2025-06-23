@@ -53,7 +53,7 @@ ACCESS_CONFIG = f"DB '{CLICKHOUSE_DATABASE}' USER 'default' PASSWORD '{CLICKHOUS
 
 GROUPS_DICTIONARY_SQL = f"""
 CREATE DICTIONARY IF NOT EXISTS {GROUPS_DICT_TABLE_NAME}
-ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+
 (
     group_key String,
     group_properties String
@@ -67,7 +67,7 @@ Lifetime(60000)
 
 PERSON_DISTINCT_IDS_DICTIONARY_SQL = f"""
 CREATE DICTIONARY IF NOT EXISTS {PERSON_DISTINCT_IDS_DICT_TABLE_NAME}
-ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+
 (
     distinct_id String,
     person_id UUID
@@ -79,7 +79,7 @@ LAYOUT(complex_key_direct())
 
 PERSONS_DICTIONARY_SQL = f"""
 CREATE DICTIONARY IF NOT EXISTS {PERSONS_DICT_TABLE_NAME}
-ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+
 (
     id UUID,
     properties String
@@ -93,7 +93,7 @@ backfill_settings = "SETTINGS mutations_sync = 2" if settings.TEST else ""
 
 BACKFILL_SQL = f"""
 ALTER TABLE {EVENTS_DATA_TABLE()}
-ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+
 UPDATE
     person_id=toUUID(dictGet('{CLICKHOUSE_DATABASE}.{PERSON_DISTINCT_IDS_DICT_TABLE_NAME}', 'person_id', tuple(distinct_id))),
     person_properties=dictGetString('{CLICKHOUSE_DATABASE}.{PERSONS_DICT_TABLE_NAME}', 'properties', tuple(toUUID(dictGet('{CLICKHOUSE_DATABASE}.{PERSON_DISTINCT_IDS_DICT_TABLE_NAME}', 'person_id', tuple(distinct_id))))),
@@ -178,7 +178,7 @@ def run_backfill(options):
         query_id = query_id_res[0][0]
         print()
         print(
-            f"Backfill running. Cancel backfill by running:\n`KILL QUERY ON CLUSTER {CLICKHOUSE_CLUSTER} WHERE query_id='{query_id}'`"
+            f"Backfill running. Cancel backfill by running:\n`KILL QUERY WHERE query_id='{query_id}'`"
         )
 
 

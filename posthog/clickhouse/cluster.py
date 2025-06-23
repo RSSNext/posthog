@@ -32,7 +32,7 @@ logger = dagster.get_dagster_logger("clickhouse")
 
 
 def ON_CLUSTER_CLAUSE(on_cluster=True):
-    return f"ON CLUSTER '{CLICKHOUSE_CLUSTER}'" if on_cluster else ""
+    return ""
 
 
 K = TypeVar("K")

@@ -256,4 +256,4 @@ CREATE_DATA_QUERIES = (CHANNEL_DEFINITION_DATA_SQL(), EXCHANGE_RATE_DATA_BACKFIL
 CREATE_VIEW_QUERIES = (SESSIONS_VIEW_SQL, RAW_SESSIONS_CREATE_OR_REPLACE_VIEW_SQL)
 
 build_query = lambda query: query if isinstance(query, str) else query()
-get_table_name = lambda query: re.findall(r"[\.\s]`?([a-z0-9_]+)`?\s+ON CLUSTER", build_query(query))[0]
+get_table_name = lambda query: re.findall(r"[\.\s]`?([a-z0-9_]+)`?\s+", build_query(query))[0]

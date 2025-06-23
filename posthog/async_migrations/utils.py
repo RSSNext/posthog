@@ -91,7 +91,7 @@ def execute_on_each_shard(sql: str, args=None, settings=None) -> None:
     if CLICKHOUSE_ALLOW_PER_SHARD_EXECUTION:
         sql = sql.format(on_cluster_clause="")
     else:
-        sql = sql.format(on_cluster_clause=f"ON CLUSTER '{CLICKHOUSE_CLUSTER}'")
+        sql = sql.format(on_cluster_clause=f"")
 
     async def run_on_all_shards():
         tasks = []
@@ -184,7 +184,7 @@ def run_optimize_table(
         sql = f"OPTIMIZE TABLE {table_name} {{on_cluster_clause}} {final_clause} {deduplicate_clause}"
 
         if not per_shard:
-            sql = sql.format(on_cluster_clause=f"ON CLUSTER '{CLICKHOUSE_CLUSTER}'")
+            sql = sql.format(on_cluster_clause=f"")
 
         execute_op_clickhouse(
             sql,
