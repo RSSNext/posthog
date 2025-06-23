@@ -9,7 +9,7 @@ from posthog.settings import CLICKHOUSE_CLUSTER
 
 operations = [
     run_sql_with_exceptions(
-        f"DROP TABLE IF EXISTS {EVENTS_RECENT_DATA_TABLE()} ON CLUSTER '{CLICKHOUSE_CLUSTER}' SYNC"
+        f"DROP TABLE IF EXISTS {EVENTS_RECENT_DATA_TABLE()} SYNC"
     ),
     run_sql_with_exceptions(EVENTS_RECENT_TABLE_SQL()),
 ]

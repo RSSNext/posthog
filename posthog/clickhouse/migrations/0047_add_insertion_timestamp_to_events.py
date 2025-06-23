@@ -10,7 +10,6 @@ from posthog.settings import CLICKHOUSE_CLUSTER
 
 ADD_COLUMNS_BASE_SQL = """
 ALTER TABLE {table}
-ON CLUSTER '{cluster}'
 ADD COLUMN IF NOT EXISTS inserted_at Nullable(DateTime64(6, 'UTC')) DEFAULT NULL
 """
 
@@ -22,8 +21,8 @@ def add_columns_to_required_tables(_):
 
 
 operations = [
-    run_sql_with_exceptions(f"DROP TABLE IF EXISTS events_json_mv ON CLUSTER '{CLICKHOUSE_CLUSTER}'"),
-    run_sql_with_exceptions(f"DROP TABLE IF EXISTS kafka_events_json ON CLUSTER '{CLICKHOUSE_CLUSTER}'"),
+    run_sql_with_exceptions(f"DROP TABLE IF EXISTS events_json_mv"),
+    run_sql_with_exceptions(f"DROP TABLE IF EXISTS kafka_events_json"),
     migrations.RunPython(add_columns_to_required_tables),
     run_sql_with_exceptions(KAFKA_EVENTS_TABLE_JSON_SQL()),
     run_sql_with_exceptions(EVENTS_TABLE_JSON_MV_SQL()),

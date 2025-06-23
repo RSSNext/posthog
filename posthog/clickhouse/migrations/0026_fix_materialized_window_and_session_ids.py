@@ -22,7 +22,7 @@ def ensure_only_new_column_exists(database, table_name, old_column_name, new_col
         sync_execute(
             f"""
                 ALTER TABLE {table_name}
-                ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+               
                 DROP COLUMN IF EXISTS {old_column_name}
             """
         )
@@ -31,7 +31,7 @@ def ensure_only_new_column_exists(database, table_name, old_column_name, new_col
         sync_execute(
             f"""
                 ALTER TABLE {table_name}
-                ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+               
                 RENAME COLUMN IF EXISTS {old_column_name} TO {new_column_name}
             """
         )

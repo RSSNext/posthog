@@ -24,7 +24,6 @@ def create_events_summary_mat_columns(database):
         sync_execute(
             f"""
             ALTER TABLE sharded_session_recording_events
-            ON CLUSTER '{CLICKHOUSE_CLUSTER}'
             ADD COLUMN IF NOT EXISTS
             {column} {data["schema"]} {data["materializer"]}
         """
@@ -32,7 +31,6 @@ def create_events_summary_mat_columns(database):
         sync_execute(
             f"""
             ALTER TABLE session_recording_events
-            ON CLUSTER '{CLICKHOUSE_CLUSTER}'
             ADD COLUMN IF NOT EXISTS
             {column} {data["schema"]}
         """
@@ -41,7 +39,6 @@ def create_events_summary_mat_columns(database):
         sync_execute(
             f"""
                 ALTER TABLE session_recording_events
-                ON CLUSTER '{CLICKHOUSE_CLUSTER}'
                 COMMENT COLUMN {column} 'column_materializer::{column}'
             """
         )
