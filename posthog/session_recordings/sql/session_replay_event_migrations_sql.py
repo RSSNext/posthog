@@ -5,13 +5,13 @@ from posthog.session_recordings.sql.session_replay_event_sql import (
 )
 
 DROP_SESSION_REPLAY_EVENTS_TABLE_MV_SQL = (
-    lambda: "DROP TABLE IF EXISTS session_replay_events_mv ON CLUSTER {cluster}".format(
+    lambda: "DROP TABLE IF EXISTS session_replay_events_mv".format(
         cluster=settings.CLICKHOUSE_CLUSTER,
     )
 )
 
 DROP_KAFKA_SESSION_REPLAY_EVENTS_TABLE_SQL = (
-    lambda: "DROP TABLE IF EXISTS kafka_session_replay_events ON CLUSTER {cluster}".format(
+    lambda: "DROP TABLE IF EXISTS kafka_session_replay_events".format(
         cluster=settings.CLICKHOUSE_CLUSTER,
     )
 )
@@ -22,7 +22,7 @@ DROP_KAFKA_SESSION_REPLAY_EVENTS_TABLE_SQL = (
 # so, for e.g. test set up has them
 # Which means this is a no-op for new installations
 ALTER_SESSION_REPLAY_ADD_CONSOLE_COLUMNS = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
         ADD COLUMN IF NOT EXISTS console_log_count SimpleAggregateFunction(sum, Int64),
         ADD COLUMN IF NOT EXISTS console_warn_count SimpleAggregateFunction(sum, Int64),
         ADD COLUMN IF NOT EXISTS console_error_count SimpleAggregateFunction(sum, Int64)
@@ -48,7 +48,7 @@ ADD_CONSOLE_COUNTS_SESSION_REPLAY_EVENTS_TABLE_SQL = lambda: ALTER_SESSION_REPLA
 
 # migration to add size column to the session replay table
 ALTER_SESSION_REPLAY_ADD_SIZE_COLUMN = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
         ADD COLUMN IF NOT EXISTS size SimpleAggregateFunction(sum, Int64)
 """
 
@@ -70,7 +70,7 @@ ADD_SIZE_SESSION_REPLAY_EVENTS_TABLE_SQL = lambda: ALTER_SESSION_REPLAY_ADD_SIZE
 
 # migration to add size column to the session replay table
 ALTER_SESSION_REPLAY_ADD_EVENT_COUNT_COLUMN = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
         ADD COLUMN IF NOT EXISTS message_count SimpleAggregateFunction(sum, Int64),
         ADD COLUMN IF NOT EXISTS event_count SimpleAggregateFunction(sum, Int64),
         -- fly by addition so that we can track lag in the data the same way as for other tables
@@ -96,7 +96,7 @@ ADD_EVENT_COUNT_SESSION_REPLAY_EVENTS_TABLE_SQL = lambda: ALTER_SESSION_REPLAY_A
 
 # migration to add source column to the session replay table
 ALTER_SESSION_REPLAY_ADD_SOURCE_COLUMN = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
     ADD COLUMN IF NOT EXISTS snapshot_source AggregateFunction(argMin, LowCardinality(Nullable(String)), DateTime64(6, 'UTC'))
 """
 
@@ -117,7 +117,7 @@ ADD_SOURCE_SESSION_REPLAY_EVENTS_TABLE_SQL = lambda: ALTER_SESSION_REPLAY_ADD_SO
 
 # migration to add all_urls column to the session replay table
 ALTER_SESSION_REPLAY_ADD_ALL_URLS_COLUMN = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
     ADD COLUMN IF NOT EXISTS all_urls SimpleAggregateFunction(groupUniqArrayArray, Array(String))
 """
 
@@ -138,7 +138,7 @@ ADD_ALL_URLS_SESSION_REPLAY_EVENTS_TABLE_SQL = lambda: ALTER_SESSION_REPLAY_ADD_
 
 # migration to add library column to the session replay table
 ALTER_SESSION_REPLAY_ADD_LIBRARY_COLUMN = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
     ADD COLUMN IF NOT EXISTS snapshot_library AggregateFunction(argMin, Nullable(String), DateTime64(6, 'UTC'))
 """
 

@@ -69,7 +69,7 @@ def KAFKA_PERSONS_TABLE_SQL(on_cluster=True):
 # You must include the database here because of a bug in clickhouse
 # related to https://github.com/ClickHouse/ClickHouse/issues/10471
 PERSONS_TABLE_MV_SQL = """
-CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv 
 TO {database}.{table_name}
 AS SELECT
 id,
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS {table_name} {on_cluster_clause}
 # You must include the database here because of a bug in clickhouse
 # related to https://github.com/ClickHouse/ClickHouse/issues/10471
 PERSONS_DISTINCT_ID_TABLE_MV_SQL = """
-CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv 
 TO {database}.{table_name}
 AS SELECT
 distinct_id,
@@ -230,7 +230,7 @@ def KAFKA_PERSON_DISTINCT_ID2_TABLE_SQL(on_cluster=True):
 # You must include the database here because of a bug in clickhouse
 # related to https://github.com/ClickHouse/ClickHouse/issues/10471
 PERSON_DISTINCT_ID2_MV_SQL = """
-CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv 
 TO {database}.{table_name}
 AS SELECT
 team_id,
@@ -291,7 +291,7 @@ KAFKA_PERSON_DISTINCT_ID_OVERRIDES_TABLE_SQL = (
 )
 
 PERSON_DISTINCT_ID_OVERRIDES_MV_SQL = """
-CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv 
 TO {database}.{table_name}
 AS SELECT
 team_id,
@@ -311,7 +311,7 @@ WHERE version > 0 -- only store updated rows, not newly inserted ones
 )
 
 TRUNCATE_PERSON_DISTINCT_ID_OVERRIDES_TABLE_SQL = (
-    f"TRUNCATE TABLE IF EXISTS {PERSON_DISTINCT_ID_OVERRIDES_TABLE} ON CLUSTER '{CLICKHOUSE_CLUSTER}'"
+    f"TRUNCATE TABLE IF EXISTS {PERSON_DISTINCT_ID_OVERRIDES_TABLE}"
 )
 
 #
@@ -351,7 +351,7 @@ def PERSON_STATIC_COHORT_TABLE_SQL(on_cluster=True):
 
 
 TRUNCATE_PERSON_STATIC_COHORT_TABLE_SQL = (
-    f"TRUNCATE TABLE IF EXISTS {PERSON_STATIC_COHORT_TABLE} ON CLUSTER '{CLICKHOUSE_CLUSTER}'"
+    f"TRUNCATE TABLE IF EXISTS {PERSON_STATIC_COHORT_TABLE}"
 )
 
 INSERT_PERSON_STATIC_COHORT = (
@@ -537,7 +537,7 @@ GET_PERSON_DISTINCT_ID2_COUNT_FOR_TEAM = "SELECT count() AS count FROM person_di
 
 
 CREATE_PERSON_DISTINCT_ID_OVERRIDES_DICTIONARY = """
-CREATE OR REPLACE DICTIONARY {database}.person_distinct_id_overrides_dict ON CLUSTER {cluster} (
+CREATE OR REPLACE DICTIONARY {database}.person_distinct_id_overrides_dict (
     `team_id` Int64, -- team_id could be made hierarchical to save some space.
     `distinct_id` String,
     `person_id` UUID

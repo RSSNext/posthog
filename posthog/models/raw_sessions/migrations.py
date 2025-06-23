@@ -5,7 +5,7 @@ from posthog.models.raw_sessions.sql import RAW_SESSIONS_DATA_TABLE, TABLE_BASE_
 
 # perf
 ADD_PAGEVIEW_AUTOCAPTURE_SCREEN_UP_TO_2_COLUMN_SQL = """
-ALTER TABLE {table_name} on CLUSTER '{cluster}'
+ALTER TABLE {table_name} 
 ADD COLUMN IF NOT EXISTS
 page_screen_autocapture_uniq_up_to
 AggregateFunction(uniqUpTo(1), Nullable(UUID))
@@ -35,7 +35,7 @@ DISTRIBUTED_RAW_SESSIONS_ADD_EVENT_COUNT_SESSION_REPLAY_EVENTS_TABLE_SQL = (
 
 # vitals
 ADD_VITALS_LCP_COLUMN_SQL = """
-ALTER TABLE {table_name} on CLUSTER '{cluster}'
+ALTER TABLE {table_name}
 ADD COLUMN IF NOT EXISTS
 vitals_lcp
 AggregateFunction(argMin, Nullable(Float64), DateTime64(6, 'UTC'))

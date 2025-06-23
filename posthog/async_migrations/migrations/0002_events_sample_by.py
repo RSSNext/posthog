@@ -51,7 +51,7 @@ def generate_insert_into_op(partition_gte: int, partition_lt=None) -> AsyncMigra
         WHERE
             toYYYYMM(timestamp) >= {partition_gte} {lt_expression}
         """,
-        rollback=f"TRUNCATE TABLE IF EXISTS {TEMPORARY_TABLE_NAME} ON CLUSTER '{CLICKHOUSE_CLUSTER}'",
+        rollback=f"TRUNCATE TABLE IF EXISTS {TEMPORARY_TABLE_NAME}",
         timeout_seconds=2 * 24 * 60 * 60,  # two days
     )
     return op
@@ -79,13 +79,13 @@ class Migration(AsyncMigrationDefinition):
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
                 sql=f"""
-                CREATE TABLE IF NOT EXISTS {TEMPORARY_TABLE_NAME} ON CLUSTER '{CLICKHOUSE_CLUSTER}' AS {EVENTS_TABLE_NAME}
+                CREATE TABLE IF NOT EXISTS {TEMPORARY_TABLE_NAME} AS {EVENTS_TABLE_NAME}
                 ENGINE = ReplacingMergeTree(_timestamp)
                 PARTITION BY toYYYYMM(timestamp)
                 ORDER BY (team_id, toDate(timestamp), event, cityHash64(distinct_id), cityHash64(uuid))
                 SAMPLE BY cityHash64(distinct_id)
                 """,
-                rollback=f"DROP TABLE IF EXISTS {TEMPORARY_TABLE_NAME} ON CLUSTER '{CLICKHOUSE_CLUSTER}'",
+                rollback=f"DROP TABLE IF EXISTS {TEMPORARY_TABLE_NAME}",
             )
         ]
 
@@ -102,8 +102,8 @@ class Migration(AsyncMigrationDefinition):
             ),
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
-                sql=f"DETACH TABLE {EVENTS_TABLE_NAME}_mv ON CLUSTER '{CLICKHOUSE_CLUSTER}'",
-                rollback=f"ATTACH TABLE {EVENTS_TABLE_NAME}_mv ON CLUSTER '{CLICKHOUSE_CLUSTER}'",
+                sql=f"DETACH TABLE {EVENTS_TABLE_NAME}_mv",
+                rollback=f"ATTACH TABLE {EVENTS_TABLE_NAME}_mv",
             ),
         ]
 
@@ -116,19 +116,19 @@ class Migration(AsyncMigrationDefinition):
                     RENAME TABLE
                         {EVENTS_TABLE_NAME} to {BACKUP_TABLE_NAME},
                         {TEMPORARY_TABLE_NAME} to {EVENTS_TABLE_NAME}
-                    ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+                   
                 """,
                 rollback=f"""
                     RENAME TABLE
                         {EVENTS_TABLE_NAME} to {FAILED_EVENTS_TABLE_NAME},
                         {BACKUP_TABLE_NAME} to {EVENTS_TABLE_NAME}
-                    ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+                   
                 """,
             ),
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
-                sql=f"ATTACH TABLE {EVENTS_TABLE_NAME}_mv ON CLUSTER '{CLICKHOUSE_CLUSTER}'",
-                rollback=f"DETACH TABLE {EVENTS_TABLE_NAME}_mv ON CLUSTER '{CLICKHOUSE_CLUSTER}'",
+                sql=f"ATTACH TABLE {EVENTS_TABLE_NAME}_mv",
+                rollback=f"DETACH TABLE {EVENTS_TABLE_NAME}_mv",
             ),
             AsyncMigrationOperation(
                 fn=lambda _: set_instance_setting("COMPUTE_MATERIALIZED_COLUMNS_ENABLED", True),

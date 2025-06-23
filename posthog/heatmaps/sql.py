@@ -27,7 +27,7 @@ We only add session_id so that we could offer example sessions for particular cl
 """
 
 KAFKA_HEATMAPS_TABLE_BASE_SQL = """
-CREATE TABLE IF NOT EXISTS {table_name} ON CLUSTER '{cluster}'
+CREATE TABLE IF NOT EXISTS {table_name}
 (
     session_id VARCHAR,
     team_id Int64,
@@ -109,7 +109,7 @@ KAFKA_HEATMAPS_TABLE_SQL = lambda: KAFKA_HEATMAPS_TABLE_BASE_SQL.format(
 
 HEATMAPS_TABLE_MV_SQL = (
     lambda: """
-CREATE MATERIALIZED VIEW IF NOT EXISTS heatmaps_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS heatmaps_mv 
 TO {database}.{target_table}
 AS SELECT
     session_id,
@@ -162,13 +162,13 @@ DISTRIBUTED_HEATMAPS_TABLE_SQL = lambda on_cluster=True: HEATMAPS_TABLE_BASE_SQL
 )
 
 DROP_HEATMAPS_TABLE_SQL = lambda: (
-    f"DROP TABLE IF EXISTS {HEATMAPS_DATA_TABLE()} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'"
+    f"DROP TABLE IF EXISTS {HEATMAPS_DATA_TABLE()}"
 )
 
 TRUNCATE_HEATMAPS_TABLE_SQL = lambda: (
-    f"TRUNCATE TABLE IF EXISTS {HEATMAPS_DATA_TABLE()} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'"
+    f"TRUNCATE TABLE IF EXISTS {HEATMAPS_DATA_TABLE()}"
 )
 
 ALTER_TABLE_ADD_TTL_PERIOD = lambda: (
-    f"ALTER TABLE {HEATMAPS_DATA_TABLE()} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}' MODIFY {ttl_period('timestamp', 90, unit='DAY')}"
+    f"ALTER TABLE {HEATMAPS_DATA_TABLE()} MODIFY {ttl_period('timestamp', 90, unit='DAY')}"
 )

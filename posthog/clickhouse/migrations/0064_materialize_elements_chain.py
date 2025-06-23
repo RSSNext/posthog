@@ -5,7 +5,7 @@ from posthog.settings import CLICKHOUSE_CLUSTER
 
 
 ADD_COLUMNS_SHARDED_EVENTS = """
-ALTER TABLE {table} ON CLUSTER {cluster}
+ALTER TABLE {table}
 ADD COLUMN IF NOT EXISTS elements_chain_href String MATERIALIZED extract(elements_chain, '(?::|\")href="(.*?)"'),
 ADD COLUMN IF NOT EXISTS elements_chain_texts Array(String) MATERIALIZED arrayDistinct(extractAll(elements_chain, '(?::|\")text="(.*?)"')),
 ADD COLUMN IF NOT EXISTS elements_chain_ids Array(String) MATERIALIZED arrayDistinct(extractAll(elements_chain, '(?::|\")id="(.*?)"')),
@@ -13,7 +13,7 @@ ADD COLUMN IF NOT EXISTS elements_chain_elements Array(Enum('a', 'button', 'form
 """
 
 ADD_COLUMNS_EVENTS = """
-ALTER TABLE {table} ON CLUSTER {cluster}
+ALTER TABLE {table}
 ADD COLUMN IF NOT EXISTS elements_chain_href String COMMENT 'column_materializer::elements_chain::href',
 ADD COLUMN IF NOT EXISTS elements_chain_texts Array(String) COMMENT 'column_materializer::elements_chain::texts',
 ADD COLUMN IF NOT EXISTS elements_chain_ids Array(String) COMMENT 'column_materializer::elements_chain::ids',

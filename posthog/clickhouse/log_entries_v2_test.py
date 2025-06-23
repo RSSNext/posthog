@@ -68,7 +68,7 @@ def KAFKA_LOG_ENTRIES_V2_TABLE_SQL(on_cluster=True):
 def LOG_ENTRIES_V2_TABLE_MV_SQL(on_cluster=True):
     return """
     CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv
-      ON CLUSTER '{cluster}'
+      
       TO {database}.{table_name}
       AS SELECT
           team_id,

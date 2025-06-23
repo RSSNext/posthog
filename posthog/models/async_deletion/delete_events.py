@@ -60,7 +60,7 @@ class AsyncEventDeletion(AsyncDeletionProcess):
 
             # Get estimated  byte size of the query
             str_predicate = " OR ".join(conditions)
-            query = f"DELETE FROM sharded_events ON CLUSTER '{CLICKHOUSE_CLUSTER}' WHERE {str_predicate}"
+            query = f"DELETE FROM sharded_events WHERE {str_predicate}"
             query_size = len(query.encode("utf-8"))
 
             logger.debug(f"Query size: {query_size}")
@@ -110,7 +110,7 @@ class AsyncEventDeletion(AsyncDeletionProcess):
         )
         conditions, args = self._conditions(team_deletions)
         for table in TABLES_TO_DELETE_TEAM_DATA_FROM:
-            query = f"""DELETE FROM {table} ON CLUSTER '{CLICKHOUSE_CLUSTER}' WHERE {" OR ".join(conditions)}"""
+            query = f"""DELETE FROM {table} WHERE {" OR ".join(conditions)}"""
             sync_execute(
                 query,
                 args,

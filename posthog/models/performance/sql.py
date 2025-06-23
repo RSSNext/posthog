@@ -190,7 +190,7 @@ def WRITABLE_PERFORMANCE_EVENTS_TABLE_SQL(on_cluster=True):
 
 PERFORMANCE_EVENTS_TABLE_MV_SQL = (
     lambda: """
-CREATE MATERIALIZED VIEW IF NOT EXISTS performance_events_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS performance_events_mv 
 TO {database}.{target_table}
 AS SELECT
 {columns}
@@ -223,4 +223,4 @@ TRUNCATE_PERFORMANCE_EVENTS_TABLE_SQL = f"TRUNCATE TABLE IF EXISTS {PERFORMANCE_
 
 
 def UPDATE_PERFORMANCE_EVENTS_TABLE_TTL_SQL():
-    return f"ALTER TABLE {PERFORMANCE_EVENT_DATA_TABLE()} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}' MODIFY TTL toDate(timestamp) + toIntervalWeek(%(weeks)s)"
+    return f"ALTER TABLE {PERFORMANCE_EVENT_DATA_TABLE()} MODIFY TTL toDate(timestamp) + toIntervalWeek(%(weeks)s)"

@@ -149,14 +149,14 @@ ORDER BY (team_id, toDate(timestamp), event, cityHash64(distinct_id), cityHash64
 
 
 EVENTS_TABLE_INSERTED_AT_INDEX_SQL = """
-ALTER TABLE {table_name} ON CLUSTER {cluster}
+ALTER TABLE {table_name}
 ADD INDEX `minmax_inserted_at` COALESCE(`inserted_at`, `_timestamp`)
 TYPE minmax
 GRANULARITY 1
 """.format(table_name=EVENTS_DATA_TABLE(), cluster=settings.CLICKHOUSE_CLUSTER)
 
 EVENTS_TABLE_MATERIALIZE_INSERTED_AT_INDEX_SQL = """
-ALTER TABLE {table_name} ON CLUSTER {cluster}
+ALTER TABLE {table_name}
 MATERIALIZE INDEX `minmax_inserted_at`
 """.format(table_name=EVENTS_DATA_TABLE(), cluster=settings.CLICKHOUSE_CLUSTER)
 
@@ -184,7 +184,7 @@ def KAFKA_EVENTS_TABLE_JSON_SQL():
 
 EVENTS_TABLE_JSON_MV_SQL = (
     lambda: """
-CREATE MATERIALIZED VIEW IF NOT EXISTS events_json_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS events_json_mv 
 TO {database}.{target_table}
 AS SELECT
 uuid,
@@ -245,7 +245,7 @@ def KAFKA_EVENTS_RECENT_TABLE_JSON_SQL():
 
 EVENTS_RECENT_TABLE_JSON_MV_SQL = (
     lambda: """
-CREATE MATERIALIZED VIEW IF NOT EXISTS events_recent_json_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS events_recent_json_mv 
 TO {database}.{target_table}
 AS SELECT
 uuid,

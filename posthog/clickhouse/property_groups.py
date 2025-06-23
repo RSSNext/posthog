@@ -98,8 +98,6 @@ class PropertyGroupManager:
         migration) if it doesn't already exist.
         """
         prefix = f"ALTER TABLE {table}"
-        if cluster is not None:
-            prefix += f" ON CLUSTER {cluster}"
 
         group_definition = self.__groups[table][source_column][group_name]
 
@@ -124,8 +122,6 @@ class PropertyGroupManager:
         re-materialize the data and have some inconsistent/missing results in the meantime.
         """
         prefix = f"ALTER TABLE {table}"
-        if cluster is not None:
-            prefix += f" ON CLUSTER {cluster}"
 
         group_definition = self.__groups[table][source_column][group_name]
 

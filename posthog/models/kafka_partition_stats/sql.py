@@ -16,7 +16,7 @@ class PartitionStatsKafkaTable:
 
     def get_create_table_sql(self) -> str:
         return f"""
-            CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+            CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name}
             (
                 `uuid` String,
                 `distinct_id` String,
@@ -34,7 +34,7 @@ class PartitionStatsKafkaTable:
 
     def get_drop_table_sql(self) -> str:
         return f"""
-            DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+            DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name}
         """
 
 
@@ -44,7 +44,7 @@ class PartitionStatsV2Table:
     def get_create_table_sql(self) -> str:
         engine = ReplacingMergeTree(self.table_name, ver="timestamp")
         return f"""
-            CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}' (
+            CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} (
                 topic LowCardinality(String),
                 partition UInt64,
                 offset UInt64,
@@ -63,7 +63,7 @@ class PartitionStatsV2Table:
 
     def get_drop_table_sql(self) -> str:
         return f"""
-            DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}' SYNC
+            DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} SYNC
         """
 
 
@@ -78,7 +78,7 @@ class PartitionStatsV2MaterializedView:
 
     def get_create_table_sql(self) -> str:
         return f"""
-            CREATE MATERIALIZED VIEW IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+            CREATE MATERIALIZED VIEW IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name}
             TO `{CLICKHOUSE_DATABASE}`.{self.to_table.table_name}
             AS SELECT
                 _topic AS topic,
@@ -95,5 +95,5 @@ class PartitionStatsV2MaterializedView:
 
     def get_drop_table_sql(self) -> str:
         return f"""
-            DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}' SYNC
+            DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} SYNC
         """

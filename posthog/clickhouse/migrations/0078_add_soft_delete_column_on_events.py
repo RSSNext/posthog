@@ -5,17 +5,17 @@ from posthog.settings import CLICKHOUSE_CLUSTER
 
 
 DROP_COLUMNS_EVENTS = """
-ALTER TABLE {table} ON CLUSTER {cluster}
+ALTER TABLE {table}
 DROP COLUMN IF EXISTS is_deleted
 """
 
 ADD_COLUMNS_EVENTS = """
-ALTER TABLE {table} ON CLUSTER {cluster}
+ALTER TABLE {table}
 ADD COLUMN IF NOT EXISTS is_deleted Boolean
 """
 
 ADD_COLUMNS_INDEX_EVENTS = """
-ALTER TABLE {table} ON CLUSTER {cluster}
+ALTER TABLE {table}
 ADD INDEX IF NOT EXISTS is_deleted_idx (is_deleted) TYPE minmax GRANULARITY 1
 """
 

@@ -88,17 +88,17 @@ class Migration(AsyncMigrationDefinition):
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
                 sql=f"""
-                    CREATE TABLE IF NOT EXISTS {TEMPORARY_TABLE_NAME} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}' AS {PERSON_TABLE_NAME}
+                    CREATE TABLE IF NOT EXISTS {TEMPORARY_TABLE_NAME} AS {PERSON_TABLE_NAME}
                     ENGINE = {self.new_table_engine()}
                     ORDER BY (team_id, id)
                     {STORAGE_POLICY()}
                 """,
-                rollback=f"DROP TABLE IF EXISTS {TEMPORARY_TABLE_NAME} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'",
+                rollback=f"DROP TABLE IF EXISTS {TEMPORARY_TABLE_NAME}",
             ),
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
                 sql=f"""
-                    CREATE MATERIALIZED VIEW {TEMPORARY_PERSON_MV} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'
+                    CREATE MATERIALIZED VIEW {TEMPORARY_PERSON_MV}
                     TO {TEMPORARY_TABLE_NAME}
                     AS SELECT
                         id,
@@ -112,7 +112,7 @@ class Migration(AsyncMigrationDefinition):
                         _offset
                     FROM {settings.CLICKHOUSE_DATABASE}.kafka_person
                 """,
-                rollback=f"DROP TABLE IF EXISTS {TEMPORARY_PERSON_MV} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'",
+                rollback=f"DROP TABLE IF EXISTS {TEMPORARY_PERSON_MV}",
             ),
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
@@ -132,16 +132,16 @@ class Migration(AsyncMigrationDefinition):
                     "send_timeout": 2 * 24 * 60 * 60,  # two days,
                     "receive_timeout": 2 * 24 * 60 * 60,  # two days,
                 },
-                rollback=f"TRUNCATE TABLE IF EXISTS {TEMPORARY_TABLE_NAME} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'",
+                rollback=f"TRUNCATE TABLE IF EXISTS {TEMPORARY_TABLE_NAME}",
             ),
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
-                sql=f"DROP TABLE IF EXISTS {TEMPORARY_PERSON_MV} ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'",
+                sql=f"DROP TABLE IF EXISTS {TEMPORARY_PERSON_MV}",
                 rollback=None,
             ),
             AsyncMigrationOperationSQL(
                 database=AnalyticsDBMS.CLICKHOUSE,
-                sql=f"DROP TABLE IF EXISTS person_mv ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'",
+                sql=f"DROP TABLE IF EXISTS person_mv",
                 rollback=None,
             ),
             AsyncMigrationOperationSQL(
@@ -150,13 +150,13 @@ class Migration(AsyncMigrationDefinition):
                     RENAME TABLE
                         {PERSON_TABLE_NAME} to {BACKUP_TABLE_NAME},
                         {TEMPORARY_TABLE_NAME} to {PERSON_TABLE_NAME}
-                    ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'
+                   
                 """,
                 rollback=f"""
                     RENAME TABLE
                         {PERSON_TABLE_NAME} to {FAILED_PERSON_TABLE_NAME},
                         {BACKUP_TABLE_NAME} to {PERSON_TABLE_NAME}
-                    ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'
+                   
                 """,
             ),
             AsyncMigrationOperationSQL(

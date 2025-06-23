@@ -1,7 +1,7 @@
 from django.conf import settings
 
 ALTER_SESSION_REPLAY_EMBEDDINGS_ADD_TYPE_COLUMN = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
         ADD COLUMN IF NOT EXISTS source_type LowCardinality(String)
 """
 
@@ -27,7 +27,7 @@ SHARDED_TABLE_ALTER_SESSION_REPLAY_EMBEDDINGS_ADD_TYPE_COLUMN = (
 )
 
 ALTER_SESSION_REPLAY_EMBEDDINGS_ADD_INPUT_COLUMN = """
-    ALTER TABLE {table_name} on CLUSTER '{cluster}'
+    ALTER TABLE {table_name} 
         ADD COLUMN IF NOT EXISTS input String
 """
 

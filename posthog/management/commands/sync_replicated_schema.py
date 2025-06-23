@@ -99,7 +99,7 @@ class Command(BaseCommand):
     def run_on_cluster(self, create_table_query: Query) -> Query:
         return re.sub(
             r"^CREATE TABLE (\S+)",
-            f"CREATE TABLE IF NOT EXISTS \\1 ON CLUSTER '{settings.CLICKHOUSE_CLUSTER}'",
+            f"CREATE TABLE IF NOT EXISTS \\1",
             create_table_query,
             count=1,
         )

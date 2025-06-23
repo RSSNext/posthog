@@ -17,7 +17,7 @@ class KafkaDebugKafkaTable:
 
     def get_create_table_sql(self) -> str:
         return f"""
-      CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+      CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name}
       (
         payload String
       )
@@ -32,7 +32,7 @@ class KafkaDebugKafkaTable:
 
     def get_drop_table_sql(self) -> str:
         return f"""
-      DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+      DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name}
     """
 
 
@@ -47,7 +47,7 @@ class KafkaDebugTable:
     def get_create_table_sql(self) -> str:
         engine = MergeTreeEngine(self.table_name)
         return f"""
-      CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}' (
+      CREATE TABLE IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} (
         payload String,
         _timestamp DateTime,
         _timestamp_ms Nullable(DateTime64(3)),
@@ -64,7 +64,7 @@ class KafkaDebugTable:
 
     def get_drop_table_sql(self) -> str:
         return f"""
-      DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}' SYNC
+      DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.table_name} SYNC
     """
 
 
@@ -79,7 +79,7 @@ class KafkaDebugMaterializedView:
 
     def get_create_view_sql(self) -> str:
         return f"""
-      CREATE MATERIALIZED VIEW IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.view_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}' TO {self.to_table.table_name}
+      CREATE MATERIALIZED VIEW IF NOT EXISTS `{CLICKHOUSE_DATABASE}`.{self.view_name} TO {self.to_table.table_name}
       AS SELECT
         payload,
         _timestamp,
@@ -93,5 +93,5 @@ class KafkaDebugMaterializedView:
 
     def get_drop_view_sql(self) -> str:
         return f"""
-      DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.view_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}' SYNC
+      DROP TABLE IF EXISTS `{CLICKHOUSE_DATABASE}`.{self.view_name} SYNC
     """

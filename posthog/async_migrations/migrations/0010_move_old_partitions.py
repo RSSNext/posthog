@@ -77,7 +77,6 @@ class Migration(AsyncMigrationDefinition):
                 database=AnalyticsDBMS.CLICKHOUSE,
                 sql=f"""
                 CREATE TABLE {backup_table_name}
-                ON CLUSTER 'posthog'
                 AS sharded_events
                 ENGINE = ReplicatedReplacingMergeTree('/clickhouse/tables/{shard}/posthog.{backup_table_name}', '{replica}', _timestamp)
                 PARTITION BY toYYYYMM(timestamp)

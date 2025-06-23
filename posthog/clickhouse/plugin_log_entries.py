@@ -55,7 +55,7 @@ def KAFKA_PLUGIN_LOG_ENTRIES_TABLE_SQL(on_cluster=True):
 
 
 PLUGIN_LOG_ENTRIES_TABLE_MV_SQL = """
-CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv ON CLUSTER '{cluster}'
+CREATE MATERIALIZED VIEW IF NOT EXISTS {table_name}_mv 
 TO {database}.{table_name}
 AS SELECT
 id,

@@ -5,12 +5,12 @@ from posthog.settings import CLICKHOUSE_CLUSTER
 
 
 DROP_COLUMNS_SHARDED_EVENTS = """
-ALTER TABLE {table} ON CLUSTER {cluster}
+ALTER TABLE {table}
 DROP COLUMN IF EXISTS elements_chain_ids
 """
 
 ADD_COLUMNS_SHARDED_EVENTS = """
-ALTER TABLE {table} ON CLUSTER {cluster}
+ALTER TABLE {table}
 ADD COLUMN IF NOT EXISTS elements_chain_ids Array(String) MATERIALIZED arrayDistinct(extractAll(elements_chain, '(?::|\")attr_id="(.*?)"'))
 """
 

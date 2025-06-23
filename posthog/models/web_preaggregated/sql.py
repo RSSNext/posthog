@@ -26,7 +26,7 @@ def TABLE_TEMPLATE(table_name, columns, order_by, on_cluster=True):
 
 def DISTRIBUTED_TABLE_TEMPLATE(dist_table_name, base_table_name, columns):
     return f"""
-    CREATE TABLE IF NOT EXISTS {dist_table_name} ON CLUSTER '{CLICKHOUSE_CLUSTER}'
+    CREATE TABLE IF NOT EXISTS {dist_table_name}
     (
         day_bucket DateTime,
         team_id UInt64,
